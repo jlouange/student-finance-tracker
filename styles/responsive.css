@@ -1,0 +1,50 @@
+@media (min-width: 768px) { /* for tablet*/
+
+  main {
+    padding: 2rem;
+  }
+
+  header {
+    padding: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .record-form {
+    max-width: 600px;
+  }
+
+
+  #record-search {
+    max-width: 400px;
+  }
+
+  #sort-records {
+    max-width: 300px;
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  #settings {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+
+
+
+  #settings h2 {
+    grid-column: 1 / 4;
+    margin-bottom: 0;
+  }
+  .settings-card {
+    margin-bottom: 0;
+  }
+}
