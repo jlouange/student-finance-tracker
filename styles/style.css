@@ -7,6 +7,7 @@
   --border: #e5e7eb;
   --warning: #b45309;
   --danger: #b91c1c;
+  --success: green;
 }
 
 
@@ -225,12 +226,12 @@ label[for="case-insensitive"] {
 }
 
 /* i made invalid fields changer to a declared danger colour which is red
-once the user has typed something wrong */
+once the user has typed something wrong 
 input:user-invalid,
 select:user-invalid {
   border: 2px solid var(--danger);
 }
-
+*/
 
 .form-feedback {
   min-height: 1.5rem;
@@ -360,4 +361,25 @@ footer {
   color: var(--muted);
   background-color: var(--surface);
   border-top: 1px solid var(--border);
+}
+
+/*when i was doing javascript main script i realised
+i need to hightlight inavlid inputs*/
+
+
+input.field-invalid,
+select.field-invalid {
+    border: 2px solid var(--danger);
+}
+
+input.field-valid,
+select.field-valid {
+    border: 2px solid var(--success);
+}
+
+
+.field-feedback {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
 }
