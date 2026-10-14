@@ -3,7 +3,7 @@ const saveSpendingCapButton = document.getElementById('save-spending-cap');
 const capAmount = document.getElementById('cap-amount');
 const capMessage = document.getElementById('cap-message');
 
-let spendingCap = Number(localStorage.getItem('spendningCap')) || 0;
+let spendingCap = Number(localStorage.getItem('spendingCap')) || 0;
 
 function updateSpendingCap(){
     capAmount.textContent = `RWF ${spendingCap}`;
@@ -39,4 +39,5 @@ saveSpendingCapButton.addEventListener('click', function(){
     spendingCap = Number(value);
     localStorage.setItem('spendingCap', spendingCap);
     updateSpendingCap();
+    document.getElementById('spending-limit').value = '';
 });
