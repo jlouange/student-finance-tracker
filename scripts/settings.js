@@ -167,6 +167,7 @@ saveCurrencyButton.addEventListener('click', function(){
 
     updateTotalSpending();
     updateSpendingCap();
+    updateWeeklyChart();
     alert('currency settings saved successfully');
     
 });
