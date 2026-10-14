@@ -8,7 +8,7 @@ function updateTotalSpending(){
     const totalSpending = document.getElementById('total-spending');
     const total = records.reduce((sum, record) => sum + Number(record.amount), 0);
 
-    totalSpending.textContent = `RWF ${total}`;
+    totalSpending.textContent = formatCurrency(total);
 }
 
 function updateTopCategory() {

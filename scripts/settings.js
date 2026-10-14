@@ -6,7 +6,7 @@ const capMessage = document.getElementById('cap-message');
 let spendingCap = Number(localStorage.getItem('spendingCap')) || 0;
 
 function updateSpendingCap(){
-    capAmount.textContent = `RWF ${spendingCap}`;
+    capAmount.textContent = formatCurrency(spendingCap);
 
     const totalSpending = records.reduce(
         (sum, record) => sum + Number(record.amount), 0
@@ -119,3 +119,73 @@ addCategoryutton.addEventListener('click', function(){
 
 
 renderCategories();
+
+const baseCurrency = document.getElementById('base-currency');
+const usdExchangeRate = document.getElementById('exchange-rate-1');
+const eurExchangeRate = document.getElementById('exchange-rate-2');
+const saveCurrencyButton = document.getElementById('save-currency-settings');
+
+
+
+let currencySettings = JSON.parse(localStorage.getItem('currencySettings')) || {
+    baseCurrency: 'RWF',
+    usdToRwf: 1,
+    eurToRwf:1
+};
+
+baseCurrency.value = currencySettings.baseCurrency;
+usdExchangeRate.value = currencySettings.usdToRwf === 1 ? '' : currencySettings.usdToRwf;
+eurExchangeRate.value = currencySettings.eurToRwf === 1 ? '': currencySettings.eurToRwf;
+
+
+saveCurrencyButton.addEventListener('click', function(){
+    const selectedCurrency = baseCurrency.value;
+    const usdRate = Number(usdExchangeRate.value);
+    const eurRate = Number(eurExchangeRate.value);
+
+
+    if(!selectedCurrency){
+        alert('Please choose a base Currency.');
+        return;
+    }
+
+    if (usdExchangeRate.value.trim() === '' || !Number.isFinite(usdRate)|| usdRate <= 0)
+    {
+        alert('please enter a valid USD exchange rate');
+        return;
+    }
+
+    if(eurExchangeRate.value.trim() === '' || !Number.isFinite(eurRate)|| eurRate <= 0){
+        alert('please enter a valid EUR exchange rate');
+        return;
+    }
+
+    currencySettings = {
+        baseCurrency: selectedCurrency, usdToRwf: usdRate, eurToRwf:eurRate};
+
+    localStorage.setItem('currencySettings', JSON.stringify(currencySettings));
+
+    updateTotalSpending();
+    updateSpendingCap();
+    alert('currency settings saved successfully');
+    
+});
+
+
+function formatCurrency(amountInRwf){
+    const currency = currencySettings.baseCurrency;
+
+    let convertedAmount = amountInRwf;
+
+    if(currency === 'USD'){
+        convertedAmount = amountInRwf / currencySettings.usdToRwf;
+    }
+    else if(currency === 'EUR' ){
+        convertedAmount = amountInRwf / currencySettings.eurToRwf;
+    }
+
+    return new Intl.NumberFormat('en', {
+        style: 'currency',
+        currency: currency
+    }).format(convertedAmount);
+}
