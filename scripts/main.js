@@ -105,3 +105,62 @@ updateTotalRecords();
 updateTotalSpending();
 updateSpendingCap();
 updateTopCategory();
+
+
+const importButton = document.getElementById('import-records');
+const importFile = document.getElementById('import-file');
+
+importButton.addEventListener('click', function(){
+    importFile.click();
+});
+
+importFile.addEventListener('change', function(){
+
+    const file = importFile.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(){
+        try{
+            records = JSON.parse(reader.result);
+
+            if(!Array.isArray(records)){
+                alert('Invalid file!');
+                return;
+            }
+
+            savedRecords(records);
+            renderRecords(records);
+            updateTotalRecords();
+            updateTotalSpending();
+            updateTopCategory();
+            updateSpendingCap();
+
+            alert('Import is successful');
+
+        }catch(error){
+            alert('Failed to read JSON file')
+
+        }
+    };
+
+    if(file){
+        reader.readAsText(file);
+    }
+});
+
+
+const exportButton = document.getElementById('export-records');
+
+exportButton.addEventListener('click', function(){
+    const jsonData = JSON.stringify(records, null, 2);
+
+    const file = new Blob([jsonData], { type: 'application/json' });
+
+
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(file);
+    link.download = 'records.json';
+    link.click();
+
+});
