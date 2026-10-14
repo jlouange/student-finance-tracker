@@ -41,3 +41,81 @@ saveSpendingCapButton.addEventListener('click', function(){
     updateSpendingCap();
     document.getElementById('spending-limit').value = '';
 });
+
+
+
+const categoryInput = document.getElementById('new-category');
+const addCategoryutton = document.getElementById('add-category');
+const categoryList = document.getElementById('category-list');
+const recordCategorySelect = document.getElementById('record-category');
+
+const defaultCategories = ['Food', 'ooks','Transport', 'Entertainment','Fees', 'Other'];
+
+let categories = JSON.parse(localStorage.getItem('categories')) || defaultCategories;
+
+
+function renderCategories(){
+    categoryList.innerHTML = '';
+    recordCategorySelect.innerHTML = '<option value="" disabled selected>Choose a category</option>';
+
+
+    categories.forEach(function(category){
+
+        const listItem = document.createElement('li');
+        const categoryName = document.createElement('span');
+        const removeButton = document.createElement('button');
+
+
+        categoryName.textContent = category;
+        removeButton.textContent = 'REMOVE';
+
+        removeButton.type = 'button';
+
+        removeButton.addEventListener('click', function(){
+            categories = categories.filter(function(item){
+                return item !== category;
+            });
+
+            localStorage.setItem('categories', JSON.stringify(categories));
+
+            renderCategories();
+        });
+
+        listItem.append(categoryName, removeButton);
+        categoryList.appendChild(listItem);
+
+        const option = document.createElement('option')
+        option.value = category.toLowerCase();
+        option.textContent = category;
+
+        recordCategorySelect.appendChild(option);
+    });
+}
+
+addCategoryutton.addEventListener('click', function(){
+    const newCategory = categoryInput.value.trim();
+
+    if (newCategory === ''){
+        alert("Please enter a category name.")
+        return;
+    }
+
+    const alreadyExists = categories.some(function(category){
+        return category.toLowerCase() === newCategory.toLowerCase();
+    });
+
+    if (alreadyExists){
+        alert('This category already exists')
+        return;
+    }
+
+    categories.push(newCategory);
+    localStorage.setItem('categories', JSON.stringify(categories));
+
+    renderCategories();
+    categoryInput.value = '';
+})
+
+
+
+renderCategories();
