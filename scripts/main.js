@@ -71,6 +71,7 @@ function doSomething(event) {
         updateTotalSpending();
         updateSpendingCap();
         updateTopCategory();
+        updateWeeklyChart();
 
         form.reset();
     }
@@ -105,6 +106,7 @@ updateTotalRecords();
 updateTotalSpending();
 updateSpendingCap();
 updateTopCategory();
+updateWeeklyChart();
 
 
 const importButton = document.getElementById('import-records');
@@ -134,6 +136,7 @@ importFile.addEventListener('change', function(){
             updateTotalSpending();
             updateTopCategory();
             updateSpendingCap();
+            updateWeeklyChart();
 
             alert('Import is successful');
 
