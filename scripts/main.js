@@ -69,6 +69,7 @@ function doSomething(event) {
         renderRecords(records);
         updateTotalRecords();
         updateTotalSpending();
+        updateSpendingCap();
         updateTopCategory();
 
         form.reset();
@@ -94,6 +95,7 @@ tableBody.addEventListener('click', function(event) {
     renderRecords(records);
     updateTotalRecords();
     updateTotalSpending();
+    updateSpendingCap();
     updateTopCategory();
   }
 });
@@ -101,4 +103,5 @@ tableBody.addEventListener('click', function(event) {
 renderRecords(records);
 updateTotalRecords();
 updateTotalSpending();
+updateSpendingCap();
 updateTopCategory();
