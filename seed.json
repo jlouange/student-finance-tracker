@@ -1,72 +1,110 @@
 [
-    {
-        "id": 1,
-        "description": "Groceries",
-        "amount": 15000,
-        "category": "Food",
-        "date": "2026-10-10"
-    },
-    {
-        "id": 2,
-        "description": "Bus transport",
-        "amount": 2000,
-        "category": "Transport",
-        "date": "2026-10-11"
-    },
-    {
-        "id": 3,
-        "description": "Lunch at campus",
-        "amount": 3500,
-        "category": "Food",
-        "date": "2026-10-11"
-    },
-    {
-        "id": 4,
-        "description": "Internet bundle",
-        "amount": 5000,
-        "category": "Utilities",
-        "date": "2026-10-12"
-    },
-    {
-        "id": 5,
-        "description": "Programming textbook",
-        "amount": 12000,
-        "category": "Education",
-        "date": "2026-10-12"
-    },
-    {
-        "id": 6,
-        "description": "Coffee",
-        "amount": 1500,
-        "category": "Food",
-        "date": "2026-10-13"
-    },
-    {
-        "id": 7,
-        "description": "Laundry",
-        "amount": 4000,
-        "category": "Personal Care",
-        "date": "2026-10-13"
-    },
-    {
-        "id": 8,
-        "description": "Taxi",
-        "amount": 6000,
-        "category": "Transport",
-        "date": "2026-10-14"
-    },
-    {
-        "id": 9,
-        "description": "Notebook and pens",
-        "amount": 2500,
-        "category": "Education",
-        "date": "2026-10-14"
-    },
-    {
-        "id": 10,
-        "description": "Monthly rent",
-        "amount": 80000,
-        "category": "Housing",
-        "date": "2026-10-14"
-    }
+  {
+    "id": 1,
+    "description": "Lunch at campus cafeteria",
+    "amount": 3500,
+    "category": "Food",
+    "date": "2026-10-14",
+    "createdAt": "2026-10-14T08:00:00.000Z",
+    "updatedAt": "2026-10-14T08:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "description": "Calculus textbook",
+    "amount": 18500,
+    "category": "Books",
+    "date": "2026-10-12",
+    "createdAt": "2026-10-12T09:15:00.000Z",
+    "updatedAt": "2026-10-12T09:15:00.000Z"
+  },
+  {
+    "id": 3,
+    "description": "Bus pass",
+    "amount": 12000,
+    "category": "Transport",
+    "date": "2026-10-10",
+    "createdAt": "2026-10-10T07:30:00.000Z",
+    "updatedAt": "2026-10-10T07:30:00.000Z"
+  },
+  {
+    "id": 4,
+    "description": "Coffee with study group",
+    "amount": 1800,
+    "category": "Entertainment",
+    "date": "2026-10-09",
+    "createdAt": "2026-10-09T15:20:00.000Z",
+    "updatedAt": "2026-10-09T15:20:00.000Z"
+  },
+  {
+    "id": 5,
+    "description": "Semester tuition fee",
+    "amount": 450000,
+    "category": "Fees",
+    "date": "2026-10-01",
+    "createdAt": "2026-10-01T10:00:00.000Z",
+    "updatedAt": "2026-10-01T10:00:00.000Z"
+  },
+  {
+    "id": 6,
+    "description": "Emergency snack",
+    "amount": 500,
+    "category": "Food",
+    "date": "2026-09-30",
+    "createdAt": "2026-09-30T12:10:00.000Z",
+    "updatedAt": "2026-09-30T12:10:00.000Z"
+  },
+  {
+    "id": 7,
+    "description": "Notebook and pens",
+    "amount": 2500,
+    "category": "Books",
+    "date": "2026-10-14",
+    "createdAt": "2026-10-14T08:00:00.000Z",
+    "updatedAt": "2026-10-14T08:00:00.000Z"
+  },
+  {
+    "id": 8,
+    "description": "Tea tea for late study",
+    "amount": 900,
+    "category": "Food",
+    "date": "2026-10-08",
+    "createdAt": "2026-10-08T19:05:00.000Z",
+    "updatedAt": "2026-10-08T19:05:00.000Z"
+  },
+  {
+    "id": 9,
+    "description": "Printing assignment pages",
+    "amount": 0.5,
+    "category": "Other",
+    "date": "2026-02-28",
+    "createdAt": "2026-02-28T11:00:00.000Z",
+    "updatedAt": "2026-02-28T11:00:00.000Z"
+  },
+  {
+    "id": 10,
+    "description": "Laptop repair and replacement charger",
+    "amount": 87500,
+    "category": "Other",
+    "date": "2026-01-01",
+    "createdAt": "2026-01-01T08:45:00.000Z",
+    "updatedAt": "2026-01-01T08:45:00.000Z"
+  },
+  {
+    "id": 11,
+    "description": "Monthly accommodation",
+    "amount": 120000,
+    "category": "Other",
+    "date": "2025-12-31",
+    "createdAt": "2025-12-31T08:00:00.000Z",
+    "updatedAt": "2025-12-31T08:00:00.000Z"
+  },
+  {
+    "id": 12,
+    "description": "Student club event ticket",
+    "amount": 7500,
+    "category": "Entertainment",
+    "date": "2025-09-29",
+    "createdAt": "2025-09-29T17:00:00.000Z",
+    "updatedAt": "2025-09-29T17:00:00.000Z"
+  }
 ]

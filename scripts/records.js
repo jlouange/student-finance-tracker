@@ -63,12 +63,23 @@ function renderRecords(recordsToRender, regex = null) {
     dateCell.textContent = record.date;
 
     const actionsCell = document.createElement('td');
+    actionsCell.classList.add('record-actions');
 
     const deleteButton = document.createElement('button');
+    deleteButton.classList.add('record-button', 'record-button-delete')
     deleteButton.textContent = 'Delete';
 
     deleteButton.dataset.id = record.id; 
 
+    const editButton = document.createElement('button');
+    editButton.classList.add('record-button', 'record-button-edit')
+    editButton.textContent = 'Edit';
+    editButton.type = 'button';
+    editButton.dataset.id = record.id;
+
+
+
+    actionsCell.appendChild(editButton);
     actionsCell.appendChild(deleteButton);
 
     

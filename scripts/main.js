@@ -3,6 +3,8 @@ const feedbackContainer = document.getElementById('form-feedback');
 const description = document.getElementById('record-description')
 // const addRecordButton = document.getElementById('submit-record')
 
+
+
 description.addEventListener('input', function () {
     const descriptionValue = description.value;
     const isValid = validateDescription(descriptionValue);
@@ -55,12 +57,16 @@ function doSomething(event) {
 
     }else{
         feedbackContainer.textContent = 'All fields are valid';
+        const timestamp = new Date().toISOString();
         let newRecord = {
             'id': counter,
             'description': descriptionValue,
             'amount': Number(amountValue),
             'category': categoryValue,
-            'date': dateValue
+            'date': dateValue,
+            'createdAt': timestamp,
+            'updatedAt': timestamp
+
         }
         counter++
         records.push(newRecord)
@@ -88,18 +94,165 @@ tableBody.addEventListener('click', function(event) {
 
     const index = records.findIndex(record => record.id === recordId);
     
-    if (index !== -1) {
-      records.splice(index, 1); 
+    if (index === -1) {
+      return; 
+    }
+
+    const isConfirmed = confirm("Do you want to delete this record permanently?");
+
+    if (!isConfirmed){
+        return;
     }
     
+    records.splice(index, 1);
+
     savedRecords(records);
     renderRecords(records);
     updateTotalRecords();
     updateTotalSpending();
     updateSpendingCap();
     updateTopCategory();
-  }
+    updateWeeklyChart();
+}
+
+if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Edit'){
+
+    const recordId = Number(event.target.dataset.id);
+    const record = records.find(record => record.id === recordId);
+    console.log('Record to edit: ', record);
+
+    if(!record){
+        return;
+    }
+
+    const row = event.target.closest('tr');
+    console.log('Selected row:', row);
+
+    const descriptionCell = row.cells[0];
+    const descriptionInput = document.createElement('input');
+
+    descriptionInput.type = 'text';
+    descriptionInput.value = record.description;
+    descriptionInput.setAttribute('aria-label', 'Edit description');
+
+    descriptionCell.replaceChildren(descriptionInput);
+
+    descriptionInput.focus();
+
+
+
+    const amountCell = row.cells[1];
+    const amountInput = document.createElement('input');
+
+    amountInput.type = 'text';
+    amountInput.inputMode = 'decimal';
+    amountInput.value = record.amount;
+    amountInput.setAttribute('aria-label', 'Edit amount');
+
+    amountCell.replaceChildren(amountInput);
+
+    const categoryCell = row.cells[2];
+    const categoryInput = document.createElement('input');
+
+
+    categoryInput.type = 'text';
+    categoryInput.value = record.category;
+    categoryInput.setAttribute('aria-label', 'Edit category');
+    categoryCell.replaceChildren(categoryInput)
+
+
+    const dateCell = row.cells[3];
+    const dateInput = document.createElement('input');
+    dateInput.type = 'date';
+    dateInput.value = record.date;
+    dateInput.setAttribute('aria-label', 'Edit date');
+    dateCell.replaceChildren(dateInput);
+
+
+    // displaying save and cancel buttons
+    //we will use the last cell in the table
+
+    const actionsCell = row.cells[4];
+
+    const saveButton = document.createElement('button');
+    saveButton.classList.add('record-button', 'record-button-save');
+
+
+    saveButton.type = 'button';
+    saveButton.textContent = 'Save';
+    saveButton.dataset.id = record.id;
+
+    const cancelButton = document.createElement('button');
+
+    cancelButton.classList.add('record-button', 'record-button-cancel')
+
+    cancelButton.type = 'button';
+    cancelButton.dataset.id = record.id;
+    cancelButton.textContent = 'Cancel';
+
+
+    actionsCell.replaceChildren(saveButton, cancelButton);
+
+
+}
+
+    // i am creating the condition to give meaningfull use of save and cancel button
+
+
+if(event.target.tagName === 'BUTTON' && event.target.textContent === 'Save'){
+
+    const recordId = Number(event.target.dataset.id);
+    const record = records.find(record => record.id === recordId);
+
+    if(!record){
+        return;
+    }
+
+
+
+    const row = event.target.closest('tr');
+    console.log('Saving record:', record);
+    console.log('Editing row:', row );
+
+    // i will retrieve the edited values which are currently in the input element
+
+
+    const descriptionValue = row.cells[0].querySelector('input').value;
+    const amountValue = row.cells[1].querySelector('input').value;
+    const categoryValue = row.cells[2].querySelector('input').value;
+    const dateValue = row.cells[3].querySelector('input').value;
+
+    // i must validate the data the user enter
+
+    const isFormValid = validateDescription(descriptionValue) && validateAmount(amountValue) && validateCategory(categoryValue) && validateDate(dateValue);
+
+    if(!isFormValid){
+        alert('Invalid inputs!');
+        return;
+
+    }
+
+    record.description = descriptionValue;
+    record.amount = Number(amountValue);
+    record.category = categoryValue;
+    record.date = dateValue;
+    record.updatedAt = new Date().toISOString();
+
+    savedRecords(records);
+    renderRecords(records);
+
+}
+
+if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Cancel'){
+    renderRecords(records);
+}
+
+
+
+
 });
+
+
 
 renderRecords(records);
 updateTotalRecords();
