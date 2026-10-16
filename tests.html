@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tests</title>
+</head>
+<body>
+    <h1>Automated tests</h1>
+    <ul id="results"></ul>
+    <p id="summary"></p>
+
+    <script src="scripts/validators.js"></script>
+
+
+    <script>
+        let passed = 0;
+        let failed = 0;
+
+        function test(name, actual, expected){
+            const result = document.createElement('li');
+
+            if(actual === expected){
+                result.textContent = `PASS: ${name}`;
+                passed++;
+            }else{
+                result.textContent = `FAIL: ${name}`;
+                failed++
+            }
+
+            document.getElementById('results').appendChild(result);
+
+        }
+
+
+        test('Valid description', validateDescription('Lunch'), true);
+        test('Leading space', validateDescription(' Lunch'), false);
+
+
+        test('Valid amount', validateAmount('2500.50'), true);
+        test('Negative amount', validateAmount('-500'), false);
+
+        test('Valid date', validateDate('2026-10-15'), true);
+        test('Invalid date', validateDate('2026-02-31'), false);
+        test('Valid leap year', validateDate('2024-02-29'), true);
+        test('Invalid leap year', validateDate('2025-02-29'), false);
+        test('Invalid month', validateDate('2026-13-15'), false);
+        test('Invalid april date', validateDate('2026-04-31'), false);
+
+
+        test('Valid category', validateCategory('School Fees'), true);
+        test('Invalid category', validateCategory('Food123'), false);
+
+
+        document.getElementById('summary').textContent = `${passed} passed, ${failed} failed`;
+    </script>
+</body>
+</html>

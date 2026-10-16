@@ -45,7 +45,17 @@ function validateDate(date) {
         return false;
     }
 
-    return true;
+    const [year, month, day] = date.split('-').map(Number);
+
+    // const daysInmonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+
+     const isLeapYear = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+
+     const daysInmonth = [31,isLeapYear ? 29 : 28,31,30,31,30,31,31,30,31,30,31];
+
+
+
+    return day <= daysInmonth[month - 1];
 }
 
 
