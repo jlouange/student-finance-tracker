@@ -48,3 +48,14 @@
     margin-bottom: 0;
   }
 }
+
+
+
+@media(max-width: 22.5rem){
+  .category-remove{
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+}
+
+

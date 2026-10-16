@@ -5,6 +5,8 @@ const capMessage = document.getElementById('cap-message');
 
 let spendingCap = Number(localStorage.getItem('spendingCap')) || 0;
 
+spendingLimitInput.value = spendingCap > 0 ? spendingCap : '';
+
 function updateSpendingCap(){
     capAmount.textContent = formatCurrency(spendingCap);
 
@@ -51,7 +53,7 @@ function updateSpendingCap(){
     }
 
     else if (totalSpending >= spendingCap * 0.8){
-        capMessage.textContent = `Warning; Only ${formatCurrency(remaining)} remaining.`
+        capMessage.textContent = `Warning: Only ${formatCurrency(remaining)} remaining.`
 
         capMessage.classList.add('warning');
 
@@ -62,9 +64,9 @@ function updateSpendingCap(){
 
     else{
 
-        capMessage.textContent = `You have ${formatCurrency(remaining)} remainig.`;
+        capMessage.textContent = `You have ${formatCurrency(remaining)} remaining.`;
 
-        capMessage.setAttribute('aria-labe', 'polite')
+        capMessage.setAttribute('aria-live', 'polite')
     }
 }
 
@@ -80,22 +82,36 @@ saveSpendingCapButton.addEventListener('click', function(){
     spendingCap = Number(value);
     localStorage.setItem('spendingCap', spendingCap);
     updateSpendingCap();
-    document.getElementById('spending-limit').value = '';
+    // document.getElementById('spending-limit').value = '';
 });
 
 
 
 const categoryInput = document.getElementById('new-category');
-const addCategoryutton = document.getElementById('add-category');
+const addCategorButton = document.getElementById('add-category');
 const categoryList = document.getElementById('category-list');
 const recordCategorySelect = document.getElementById('record-category');
 
-const defaultCategories = ['Food', 'ooks','Transport', 'Entertainment','Fees', 'Other'];
+const defaultCategories = ['Food', 'Books','Transport', 'Entertainment','Fees', 'Other'];
 
-let categories = JSON.parse(localStorage.getItem('categories')) || defaultCategories;
+let categories;
+
+try{
+    const saved = JSON.parse(localStorage.getItem('categories'));
+
+    categories = Array.isArray(saved) ? saved : [...defaultCategories];
+    }catch(error){
+        categories = [...defaultCategories];
+    }
 
 
 function renderCategories(){
+
+    const previouslySelected = recordCategorySelect.value;
+
+    if(categories.includes(previouslySelected)){
+        recordCategorySelect.value = previouslySelected;
+    }
     categoryList.innerHTML = '';
     recordCategorySelect.innerHTML = '<option value="" disabled selected>Choose a category</option>';
 
@@ -107,12 +123,37 @@ function renderCategories(){
         const removeButton = document.createElement('button');
 
 
+        const editButton = document.createElement('button');
+
+        editButton.type = 'button';
+        editButton.textContent = 'Edit';
+        editButton.classList.add('category-edit');
+
+        editButton.setAttribute('aria-label', `Edit ${category} category`)
+
+        removeButton.classList.add('category-remove');
+
         categoryName.textContent = category;
         removeButton.textContent = 'REMOVE';
 
         removeButton.type = 'button';
 
         removeButton.addEventListener('click', function(){
+
+            if(categories.length === 1){
+                alert('You must keep at least one categoyr!');
+                return;
+            }
+            const usageCount = records.filter(record => record.category.toLowerCase() === category.toLowerCase()).length;
+            const isConfirm = confirm(
+                `Are you sure you want to remove "${category}"?\n\n` + 
+                `${usageCount} transaction(s) currently use this category.\n\n` + 
+                `Existing transactions will not be deleted.`
+            );
+
+            if(!isConfirm){
+                return;
+            }
             categories = categories.filter(function(item){
                 return item !== category;
             });
@@ -122,22 +163,109 @@ function renderCategories(){
             renderCategories();
         });
 
-        listItem.append(categoryName, removeButton);
+        // listItem.append(categoryName, removeButton);
+        // categoryList.appendChild(listItem);
+
+        const actions = document.createElement('div');
+        actions.classList.add('category-actions');
+
+        actions.append(editButton, removeButton);
+
+        listItem.append(categoryName, actions);
         categoryList.appendChild(listItem);
 
+        editButton.addEventListener('click', function (){
+            const input = document.createElement('input');
+
+            input.type = 'text';
+            input.value = category;
+            input.classList.add('category-edit-input');
+            input.setAttribute('aria-label', `Rename ${category}`);
+
+
+            const saveButton = document.createElement('button');
+
+            saveButton.type = 'button';
+            saveButton.textContent = 'Save';
+            saveButton.classList.add('record-utton', 'record-button-save'); // i made this inorder to reuse the existing css
+
+
+            const cancelButton = document.createElement('button');
+            cancelButton.type = 'button';
+            cancelButton.textContent = 'Cancel';
+            cancelButton.classList.add('record-button', 'record-button-cancel');
+
+            categoryName.replaceWith(input);
+
+            actions.replaceChildren(saveButton, cancelButton);
+
+            input.focus();
+
+            saveButton.addEventListener('click', function(){
+                const newName = input.value.trim();
+
+
+
+                if(!validateCategory(newName)){
+                    alert('Use only letters, spaces and hyphens!');
+                    input.focus();
+                    return;
+                }
+
+                const alreadyExists = categories.some(function(item){
+                    return (item.toLowerCase() === newName.toLowerCase() && item.toLowerCase() !== category.toLowerCase());
+
+                });
+
+                if (alreadyExists){
+                    alert('this category already exists');
+                    input.focus();
+                    return;
+                }
+
+                categories = categories.map(function(item){
+                    return item === category ? newName : item;
+
+                });
+
+                const timeStamp = new Date().toISOString();
+
+                records.forEach(function(record){
+                    if(record.category.toLowerCase() === category.toLowerCase()){
+                        record.category = newName;
+                        record.updatedAt = timeStamp;
+                    }
+                });
+
+                localStorage.setItem('categories', JSON.stringify(categories));
+
+                savedRecords(records);
+
+
+                renderCategories();
+                searchRecords();
+                updateTopCategory();
+
+            });
+
+            cancelButton.addEventListener('click', function(){
+                renderCategories();
+            });
+        });       
+
         const option = document.createElement('option')
-        option.value = category.toLowerCase();
+        option.value = category;
         option.textContent = category;
 
         recordCategorySelect.appendChild(option);
     });
 }
 
-addCategoryutton.addEventListener('click', function(){
+addCategorButton.addEventListener('click', function(){
     const newCategory = categoryInput.value.trim();
 
-    if (newCategory === ''){
-        alert("Please enter a category name.")
+    if (!validateCategory(newCategory)){
+        alert("Use only letters, spaces and hyphens.")
         return;
     }
 
