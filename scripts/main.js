@@ -262,6 +262,73 @@ updateTopCategory();
 updateWeeklyChart();
 
 
+// validating imported records
+
+function validateImportedRecords(data){
+    if(!Array.isArray(data)){
+        return false;
+    }
+
+    const ids = new Set();
+
+    for (const record of data){
+        if(!record || typeof record !== 'object' || Array.isArray(record)){
+            return false;
+        }
+
+        // i will check unique ids
+
+        if(!Number.isSafeInteger(record.id) || record.id < 1){
+            return false;
+        }
+
+        if(ids.has(record.id)){
+            return false;
+        }
+
+        ids.add(record.id);
+
+        // i will also validate record fields
+
+
+        if(!validateDescription(record.description)){
+            return false;
+        }
+
+        if(typeof record.amount !== 'number' || !Number.isFinite(record.amount) || !validateAmount(String(record.amount))){
+            return false;
+        }
+
+        if(!validateCategory(record.category)){
+            return false;
+
+        }
+
+        if(!validateDate(record.date)){
+            return false;
+
+        }
+
+        // i will also validate the timestamps
+
+        if (typeof record.createdAt !== 'string' || Number.isNaN(Date.parse(record.createdAt))){
+            return false;
+        }
+
+        if(typeof record.updatedAt !== 'string' || Number.isNaN(Date.parse(record.updatedAt))){
+            return false;
+        }
+
+        if(Date.parse(record.updatedAt) < Date.parse(record.createdAt)){
+            return false;
+        }
+    }
+    return true;
+}
+
+
+
+
 const importButton = document.getElementById('import-records');
 const importFile = document.getElementById('import-file');
 
@@ -272,16 +339,39 @@ importButton.addEventListener('click', function(){
 importFile.addEventListener('change', function(){
 
     const file = importFile.files[0];
+
+    if(!file){
+        return;
+    }
+
     const reader = new FileReader();
 
     reader.onload = function(){
         try{
-            records = JSON.parse(reader.result);
+            // records = JSON.parse(reader.result);
 
-            if(!Array.isArray(records)){
-                alert('Invalid file!');
+            const importedRecords = JSON.parse(reader.result);
+
+            // i validate before modifying existing records
+
+            if(!validateImportedRecords(importedRecords)){
+                alert('Invalid JSON structure or record data');
                 return;
             }
+
+            const confirmed = confirm(
+                'Importing will replace your existing records. Continue?'
+            );
+
+            if(!confirmed){
+                return;
+            }
+
+            records = importedRecords;
+
+            counter = records.reduce((max, record) => Math.max(max, record.id),0) + 1;
+
+            
 
             savedRecords(records);
             renderRecords(records);
@@ -294,14 +384,24 @@ importFile.addEventListener('change', function(){
             alert('Import is successful');
 
         }catch(error){
+            console.error('Import error:', error);
             alert('Failed to read JSON file')
 
+        }finally{
+            importFile.value = '';
         }
     };
 
-    if(file){
-        reader.readAsText(file);
-    }
+    reader.onerror = function(){
+        alert('Failed to read the selected file')
+        importFile.value = '';
+    };
+
+    reader.readAsText(file);
+
+    // if(file){
+    //     reader.readAsText(file);
+    // }
 });
 
 
