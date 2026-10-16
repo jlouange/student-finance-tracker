@@ -240,6 +240,7 @@ if(event.target.tagName === 'BUTTON' && event.target.textContent === 'Save'){
 
     savedRecords(records);
     renderRecords(records);
+    updateSpendingCap();
 
 }
 

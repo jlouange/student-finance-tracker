@@ -501,3 +501,22 @@ select.field-valid {
 .record-button:active{
   transform: scale(0.97);
 }
+
+/*part for styling cap status*/
+
+
+#cap-message{
+  margin-top: 0.75rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+#cap-message.warning{
+  color: var(--warning);
+  font-weight: 600;
+}
+
+#cap-message.exceeded{
+  color: var(--danger);
+  font-weight: 700;
+}

@@ -13,17 +13,58 @@ function updateSpendingCap(){
 
     );
 
-    if (spendingCap === 0){
-        capMessage.textContent = 'Set a spending cap in settings';
+    // if (spendingCap === 0){
+    //     capMessage.textContent = 'Set a spending cap in settings';
 
-    } else if (totalSpending > spendingCap){
-        capMessage.textContent = 'Yoou have exceeded your spending limit'
+    // } else if (totalSpending > spendingCap){
+    //     capMessage.textContent = 'Yoou have exceeded your spending limit'
 
-    }else if (totalSpending >= spendingCap * 0.8){
-        capMessage.textContent = 'you have use 80% 0f your spending limit'
+    // }else if (totalSpending >= spendingCap * 0.8){
+    //     capMessage.textContent = 'you have use 80% 0f your spending limit'
 
-    }else{
-        capMessage.textContent = 'you are within your spending limit';
+    // }else{
+    //     capMessage.textContent = 'you are within your spending limit';
+    // }
+
+    capMessage.classList.remove('warning', 'exceeded');
+
+    if(spendingCap <= 0){
+        capMessage.textContent = 'Set a spending cap in settings.';
+
+        capMessage.setAttribute('aria-live', 'polite');
+
+        return;
+    }
+
+
+    const remaining = spendingCap - totalSpending;
+
+    if(remaining < 0){
+        const overage = Math.abs(remaining);
+
+        capMessage.textContent = `Spending cap exceeded by ${formatCurrency(overage)}.`
+
+        capMessage.classList.add('exceeded');
+
+        capMessage.setAttribute('aria-live', 'assertive');
+
+    }
+
+    else if (totalSpending >= spendingCap * 0.8){
+        capMessage.textContent = `Warning; Only ${formatCurrency(remaining)} remaining.`
+
+        capMessage.classList.add('warning');
+
+        capMessage.setAttribute('aria-live', 'polite');
+
+
+    }
+
+    else{
+
+        capMessage.textContent = `You have ${formatCurrency(remaining)} remainig.`;
+
+        capMessage.setAttribute('aria-labe', 'polite')
     }
 }
 
