@@ -322,9 +322,12 @@ select:user-invalid {
 }
 
 .records-table tbody tr:hover {
-  background-color: #f0fdf4;
+  background-color: color-mix(in srgb, var(--primary) 10%, var(--surface));
 }
 
+.records-table tbody tr {
+  color: var(--text);
+}
 
 
 
@@ -658,4 +661,19 @@ select.field-valid {
   justify-self: end;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+
+/*dark mode colors*/
+
+:root[data-theme="dark"]{
+  --primary: #4ade80;
+  --page: #111827;
+  --surface: #1f2937;
+  --text: #f9fafb;
+  --muted: #cbd5e1;
+  --border: #475569;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --success: #4ade80;
 }
