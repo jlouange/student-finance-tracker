@@ -282,6 +282,7 @@ addCategorButton.addEventListener('click', function(){
     localStorage.setItem('categories', JSON.stringify(categories));
 
     renderCategories();
+    refreshApp();
     categoryInput.value = '';
 })
 
@@ -334,9 +335,7 @@ saveCurrencyButton.addEventListener('click', function(){
 
     localStorage.setItem('currencySettings', JSON.stringify(currencySettings));
 
-    updateTotalSpending();
-    updateSpendingCap();
-    updateWeeklyChart();
+    refreshApp();
     alert('currency settings saved successfully');
     
 });

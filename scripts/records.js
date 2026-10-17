@@ -52,7 +52,7 @@ function renderRecords(recordsToRender, regex = null) {
     const amountCell = document.createElement('td');
 
 
-    amountCell.textContent = record.amount;
+    amountCell.textContent = formatCurrency(record.amount);
     
     const categoryCell = document.createElement('td');
     categoryCell.textContent = record.category;

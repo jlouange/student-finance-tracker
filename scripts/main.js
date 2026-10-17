@@ -1,3 +1,15 @@
+function refreshApp(){
+    searchRecords();
+
+    updateTotalRecords();
+    updateTotalSpending();
+    updateTopCategory();
+    updateSpendingCap();
+    updateWeeklyChart();
+}
+
+
+
 const form = document.getElementById('record-form');
 const feedbackContainer = document.getElementById('form-feedback');
 const description = document.getElementById('record-description')
@@ -72,12 +84,7 @@ function doSomething(event) {
         records.push(newRecord)
 
         savedRecords(records);
-        renderRecords(records);
-        updateTotalRecords();
-        updateTotalSpending();
-        updateSpendingCap();
-        updateTopCategory();
-        updateWeeklyChart();
+        refreshApp();
 
         form.reset();
     }
@@ -107,12 +114,7 @@ tableBody.addEventListener('click', function(event) {
     records.splice(index, 1);
 
     savedRecords(records);
-    renderRecords(records);
-    updateTotalRecords();
-    updateTotalSpending();
-    updateSpendingCap();
-    updateTopCategory();
-    updateWeeklyChart();
+    refreshApp();
 }
 
 if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Edit'){
@@ -147,7 +149,8 @@ if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Edit'){
     amountInput.type = 'text';
     amountInput.inputMode = 'decimal';
     amountInput.value = record.amount;
-    amountInput.setAttribute('aria-label', 'Edit amount');
+    amountInput.setAttribute('aria-label', 'Edit amount in RWf'); 
+    amountInput.title = 'enter the amount in RWF';
 
     amountCell.replaceChildren(amountInput);
 
@@ -239,13 +242,12 @@ if(event.target.tagName === 'BUTTON' && event.target.textContent === 'Save'){
     record.updatedAt = new Date().toISOString();
 
     savedRecords(records);
-    renderRecords(records);
-    updateSpendingCap();
+    refreshApp();
 
 }
 
 if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Cancel'){
-    renderRecords(records);
+    searchRecords();
 }
 
 
@@ -255,12 +257,7 @@ if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Cancel'){
 
 
 
-renderRecords(records);
-updateTotalRecords();
-updateTotalSpending();
-updateSpendingCap();
-updateTopCategory();
-updateWeeklyChart();
+refreshApp();
 
 
 // validating imported records
@@ -375,12 +372,7 @@ importFile.addEventListener('change', function(){
             
 
             savedRecords(records);
-            renderRecords(records);
-            updateTotalRecords();
-            updateTotalSpending();
-            updateTopCategory();
-            updateSpendingCap();
-            updateWeeklyChart();
+            refreshApp();
 
             alert('Import is successful');
 
