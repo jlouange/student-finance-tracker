@@ -97,13 +97,19 @@ header p {
   top: 0;
 }
 
-
+html{
+  scroll-padding-top: 5rem;
+  scroll-behavior: smooth;
+}
 
 
 
 
 
 nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
