@@ -15,18 +15,7 @@ function updateSpendingCap(){
 
     );
 
-    // if (spendingCap === 0){
-    //     capMessage.textContent = 'Set a spending cap in settings';
-
-    // } else if (totalSpending > spendingCap){
-    //     capMessage.textContent = 'Yoou have exceeded your spending limit'
-
-    // }else if (totalSpending >= spendingCap * 0.8){
-    //     capMessage.textContent = 'you have use 80% 0f your spending limit'
-
-    // }else{
-    //     capMessage.textContent = 'you are within your spending limit';
-    // }
+   
 
     capMessage.classList.remove('warning', 'exceeded');
 
@@ -82,7 +71,7 @@ saveSpendingCapButton.addEventListener('click', function(){
     spendingCap = Number(value);
     localStorage.setItem('spendingCap', spendingCap);
     updateSpendingCap();
-    // document.getElementById('spending-limit').value = '';
+    
 });
 
 
@@ -109,9 +98,7 @@ function renderCategories(){
 
     const previouslySelected = recordCategorySelect.value;
 
-    if(categories.includes(previouslySelected)){
-        recordCategorySelect.value = previouslySelected;
-    }
+    
     categoryList.innerHTML = '';
     recordCategorySelect.innerHTML = '<option value="" disabled selected>Choose a category</option>';
 
@@ -163,8 +150,7 @@ function renderCategories(){
             renderCategories();
         });
 
-        // listItem.append(categoryName, removeButton);
-        // categoryList.appendChild(listItem);
+        
 
         const actions = document.createElement('div');
         actions.classList.add('category-actions');
@@ -241,10 +227,15 @@ function renderCategories(){
 
                 savedRecords(records);
 
-
+                const wasSelected = recordCategorySelect.value === category;
+                
                 renderCategories();
-                searchRecords();
-                updateTopCategory();
+
+                if (wasSelected){
+                    recordCategorySelect.value = newName;
+
+                }
+                refreshApp();
 
             });
 
@@ -259,6 +250,10 @@ function renderCategories(){
 
         recordCategorySelect.appendChild(option);
     });
+
+    if (categories.includes(previouslySelected)){
+        recordCategorySelect.value = previouslySelected;
+    }
 }
 
 addCategorButton.addEventListener('click', function(){

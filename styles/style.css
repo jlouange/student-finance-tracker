@@ -70,7 +70,7 @@ header {
   position: relative;
   padding: 1.5rem 1rem;
   background-color: var(--primary);
-  color: white;
+  color: var(--text);
 }
 
 header h1 {
@@ -269,7 +269,7 @@ select:user-invalid {
 
 .button-primary {
   background-color: var(--primary);
-  color: white;
+  color: var(--text);
 }
 
 .button-primary:hover {

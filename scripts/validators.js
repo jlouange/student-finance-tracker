@@ -85,7 +85,7 @@ function hasDuplicateWords (description) {
         return false;
     }
 
-    const duplicatePattern = /\b(\w+)\s+\1\b/
+    const duplicatePattern = /\b(\w+)\s+\1\b/i;
 
     if (!duplicatePattern.test(description)){
         return false;

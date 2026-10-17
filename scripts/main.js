@@ -19,7 +19,7 @@ const description = document.getElementById('record-description')
 
 description.addEventListener('input', function () {
     const descriptionValue = description.value;
-    const isValid = validateDescription(descriptionValue);
+    const isValid = validateDescription(descriptionValue) && !hasDuplicateWords(descriptionValue);
 
     description.classList.remove('field-invalid', 'field-valid');
 
@@ -40,7 +40,8 @@ function doSomething(event) {
     
     const descriptionValue = description.value
 
-    const isValid_description = validateDescription(descriptionValue)
+    const isValid_description = validateDescription(descriptionValue);
+    const hasDuplicates = hasDuplicateWords(descriptionValue);
     console.log(isValid_description)
 
     const amount = document.getElementById('record-amount')
@@ -60,10 +61,13 @@ function doSomething(event) {
     const isValid_category = validateCategory(categoryValue)
     console.log(isValid_category)
 
-    const isFormValid = isValid_description && isValid_amount && isValid_category && isValid_date
+    const isFormValid = isValid_description && isValid_amount && isValid_category && isValid_date && !hasDuplicates;
     console.log(isFormValid)
 
-    
+    if (hasDuplicates){
+        feedbackContainer.textContent = 'Description contains repeated words!';
+        return;
+    }
     if (isFormValid === false) {
         feedbackContainer.textContent = 'Invalid input. Please check your text';
 
@@ -227,7 +231,7 @@ if(event.target.tagName === 'BUTTON' && event.target.textContent === 'Save'){
 
     // i must validate the data the user enter
 
-    const isFormValid = validateDescription(descriptionValue) && validateAmount(amountValue) && validateCategory(categoryValue) && validateDate(dateValue);
+    const isFormValid = validateDescription(descriptionValue) && validateAmount(amountValue) && validateCategory(categoryValue) && validateDate(dateValue) && !hasDuplicateWords(descriptionValue);
 
     if(!isFormValid){
         alert('Invalid inputs!');

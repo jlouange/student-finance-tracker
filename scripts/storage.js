@@ -10,5 +10,18 @@ function loadRecords(){
         return [];
     }
 
-    return JSON.parse(savedRecords);
+    try{
+        const parsedRecords = JSON.parse(savedRecords);
+
+        if(!Array.isArray(parsedRecords)){
+            console.error('Saved records must be an array');
+            return [];
+        }
+
+        return parsedRecords;
+    }catch(error){
+        console.error('Failed to load saved Records: ', error);
+        return [];
+    }
+
 }
