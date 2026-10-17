@@ -51,7 +51,8 @@
         test('Valid category', validateCategory('School Fees'), true);
         test('Invalid category', validateCategory('Food123'), false);
 
-
+        test('detect duplicate words', hasDuplicateWords('Tea tea'), true);
+        test('No duplicate words', hasDuplicateWords('My phone'), false);
         document.getElementById('summary').textContent = `${passed} passed, ${failed} failed`;
     </script>
 </body>

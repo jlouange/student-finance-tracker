@@ -187,7 +187,7 @@ function renderCategories(){
 
             saveButton.type = 'button';
             saveButton.textContent = 'Save';
-            saveButton.classList.add('record-utton', 'record-button-save'); // i made this inorder to reuse the existing css
+            saveButton.classList.add('record-button', 'record-button-save'); // i made this inorder to reuse the existing css
 
 
             const cancelButton = document.createElement('button');
