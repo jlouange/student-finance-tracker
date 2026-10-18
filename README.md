@@ -545,16 +545,6 @@ https://jlouange.github.io/student-finance-tracker/
 - Branch: `main`.
 - Directory: `/(root)`.
 
----
-
-## AI Usage and Academic Integrity
-
-This is an individual academic project.
-
-AI tools were used for guidance, explanations, code review, and debugging assistance during development.
-
-I reviewed and tested AI-assisted changes as part of my development process.
-
 
 
 ---
