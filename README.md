@@ -10,7 +10,7 @@ The application is built using **HTML5, CSS3, and vanilla JavaScript**, without 
 
 **GitHub Repository:** [View Source Code](https://github.com/jlouange/student-finance-tracker)
 
-**Demo Video:** [video link]
+**Demo Video:** [video link](https://youtu.be/ktmM1fxpUBU)
 
 ---
 
